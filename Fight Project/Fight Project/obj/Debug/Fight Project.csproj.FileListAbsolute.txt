@@ -1,0 +1,24 @@
+H:\Fight Project\Fight Project\bin\Debug\Fight Project.exe.config
+H:\Fight Project\Fight Project\bin\Debug\Fight Project.exe
+H:\Fight Project\Fight Project\bin\Debug\Fight Project.pdb
+H:\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.AssemblyReference.cache
+H:\Fight Project\Fight Project\obj\Debug\Fight_Project.Form1.resources
+H:\Fight Project\Fight Project\obj\Debug\Fight_Project.Form2.resources
+H:\Fight Project\Fight Project\obj\Debug\Fight_Project.Properties.Resources.resources
+H:\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.GenerateResource.cache
+H:\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.CoreCompileInputs.cache
+H:\Fight Project\Fight Project\obj\Debug\Fight Project.exe
+H:\Fight Project\Fight Project\obj\Debug\Fight Project.pdb
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.AssemblyReference.cache
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight_Project.Form1.resources
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight_Project.Form2.resources
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight_Project.Form3.resources
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight_Project.Properties.Resources.resources
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.GenerateResource.cache
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight Project.csproj.CoreCompileInputs.cache
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight Project.exe
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\obj\Debug\Fight Project.pdb
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\bin\Debug\Fight Project.exe.config
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\bin\Debug\Fight Project.exe
+\\JLC-FSRV01\s24000007707\Documents\Fight Project\Fight Project\bin\Debug\Fight Project.pdb
+H:\Fight Project\Fight Project\obj\Debug\Fight_Project.Form3.resources
