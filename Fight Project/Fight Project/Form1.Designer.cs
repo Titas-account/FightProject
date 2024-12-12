@@ -56,6 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Fight_Project.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.LoadGame);
             this.Controls.Add(this.NewGame);

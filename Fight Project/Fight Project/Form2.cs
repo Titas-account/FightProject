@@ -19,7 +19,8 @@ using System.Xml.Schema;
 namespace Fight_Project
 {
     public partial class Form2 : Form
-    {
+    {   
+        // Setting up Variables
         public string name = "";
         public int rolls = 0;
         int currentXPosition = 0;
@@ -40,45 +41,85 @@ namespace Fight_Project
         public int wins = 0;
         public int loss=0;
 
+        Timer Main = new Timer();
+         public int time = 0;
+
         public Form2()
         {
+            //Sets the current form to 'Battleform' using the manager class.
             InitializeComponent();
+            Manager.BattleForm = this;
 
-            Random random = new Random();
-            int randomenemy = random.Next(1, 5);
-
+            // Creating enemy presets and randomly choosing one to set to the current/main enemy, 'Opponent'.
             Enemy tr = new Enemy(100, "Tree");
             Enemy h = new Enemy(150, "Human");
             Enemy v = new Enemy(100, "Volcano");
             Enemy ts = new Enemy(75, "Tsunami");
             Enemy Opponent = new Enemy(69,"Placeholder");
 
-            if (randomenemy == 1)
+            if (Manager.Loaded)
             {
-                Image a = Image.FromFile("tree.jpg");
-                Enemyimage.Image = a;
-                 Opponent = tr;
+                string[] Storage = File.ReadAllLines("H:/Fight Project/Fight Project/bin/debug/Game scores.txt");
+
+                health = double.Parse(Storage[3]);
+                Opponent.health = double.Parse(Storage[4]);
+                Opponent.name = Storage[5].Trim().ToLower();
             }
-            if (randomenemy == 2)
+            else
             {
-                Image a = Image.FromFile("human.png");
-                Enemyimage.Image = a;
-                Opponent = h;
-            }
-            if (randomenemy == 3)
-            {
-                Image a = Image.FromFile("volcano.jpg");
-                Enemyimage.Image = a;
-                Opponent= v;
-            }
-            if (randomenemy == 4)
-            {
-                Image a = Image.FromFile("tsunami.jpg");
-                Enemyimage.Image = a;
-                Opponent = ts;
+                Random random = new Random();
+                int randomenemy = random.Next(1, 5);
+
+                if (randomenemy == 1)
+                {
+                    Opponent.name = "Tree";
+                    Opponent = tr;
+                }
+                if (randomenemy == 2)
+                {
+                    Opponent.name = "Human";
+                    Opponent = h;
+                }
+                if (randomenemy == 3)
+                {
+                    Opponent.name = "Volcano";
+                    Opponent = v;
+                }
+                if (randomenemy == 4)
+                {
+                    Opponent.name = "Tsunami";
+                    Opponent = ts;
+                }
             }
 
+            EnemySetup();
 
+            void EnemySetup()
+            {
+                if (Opponent.name == "Tree")
+                {
+                    Image a = Image.FromFile("tree.jpg");
+                    Enemyimage.Image = a;                   
+                }
+                if (Opponent.name == "Human")
+                {
+                    Image a = Image.FromFile("human.png");
+                    Enemyimage.Image = a;
+                }
+                if (Opponent.name == "Volcano")
+                {
+                    Image a = Image.FromFile("volcano.jpg");
+                    Enemyimage.Image = a;
+                }
+                if (Opponent.name == "Tsunami")
+                {
+                    Image a = Image.FromFile("tsunami.jpg");
+                    Enemyimage.Image = a;
+                }
+                Manager.Loaded = false;
+            }
+
+            // Updates the health textbox at the start of the game.
             if (Healthbar.Text != health.ToString())
             {
                 Healthbar.Text = "Health =" + health;
@@ -88,26 +129,31 @@ namespace Fight_Project
                 EnemyHealthbar.Text = Opponent.name + " Health =" + Opponent.health;
             }
 
+            //Sets the stats of the enemy to be public.
             enemyhealth = Opponent.health;
             name = Opponent.name;
             Totalenemyhealth = Opponent.health;
+            Manager.EnemyName = name;
 
             Enemyimage.SizeMode = PictureBoxSizeMode.Zoom;
 
-            if (File.Exists("H:/Fight Project/Fight Project/bin/debug/Game scores"))
-            {
+            // Sets up a timer that runs the 'ChangeTime' function with a 1 second interval.
+            Main.Tick += Changetime;
+            Main.Interval= 1000;
+            Main.Start();
 
-            }
-            else
-            {
-                FileStream Scores = File.Create("H:/Fight Project/Fight Project/bin/debug/Game scores");
-                Scores.Close();
-            }
+        }
 
+        // Updates the text on the 'Timer' textbox.
+         void Changetime(object sender, EventArgs e)
+        {
+            Timer1.Text= "Playtime "+time.ToString();
+            time++;
         }
 
         List<PictureBox> inventoryslot = new List<PictureBox>();
 
+        // Checks if it is the players move, if it does not it makes the computer so a random attack by referencing the 'EnemyAttack' function with a random number.
         private void RollButton_Click(object sender, EventArgs e)
         {
             if (currentplayer == "Player 1")
@@ -122,21 +168,27 @@ namespace Fight_Project
                 if (movenumber == 1)
                 {
                     EnemyAttack(15, "Fire");
+                    EnemyAttackLabel.Text="Enemy used Fire Attack";
                 }
                 if (movenumber == 2)
                 {
                     EnemyAttack(20, "Fist");
+                    EnemyAttackLabel.Text = "Enemy used Fist Attack";
                 }
                 if (movenumber == 3)
                 {
                     EnemyAttack(15, "Stun");
+                    EnemyAttackLabel.Text = "Enemy used Stun Attack";
                 }
                 if (movenumber == 4)
                 {
                     EnemyAttack(0, "Heal");
+                    EnemyAttackLabel.Text = "Enemy used Heal";
                 }
             }
         }
+
+        // Creates a random attack by referencing the 'Move' function usking a random number.
         public void RandomRoll()
         {
            if (stunned == false)
@@ -157,9 +209,7 @@ namespace Fight_Project
 
         }
 
-
-
-
+        // Checks the random move and creates a picturebox based off the type, furthermore it also sets the tag of the attack to be the stats so they can be easily accesed for each attack.
         public void Move(int type)
         {
 
@@ -198,6 +248,7 @@ namespace Fight_Project
             Inventory.Controls.Add(xx);
         }
 
+        // Main attack function, checks the status of the move that was clicked and links the the Turn procedure.
         void Attack(object sender, EventArgs e)
         {
             PictureBox b = sender as PictureBox;
@@ -234,6 +285,7 @@ namespace Fight_Project
             Turn();
         }
 
+        // Makes the enemy use a random move on the player unless it is stunned.
         void EnemyAttack(int d, string s)
         {
             if (enemystunned == false)
@@ -266,7 +318,7 @@ namespace Fight_Project
             Turn();
         }
 
-        
+        // Gives a 1 in 4 chance of the enemy being stunned once the 'Stun' move is used.
         public void Stun()
         {
             
@@ -290,11 +342,12 @@ namespace Fight_Project
             }
         }
 
+        // Checks if either player or computer is still stunned.
         public void StunCountdown()
         {
             if (enemystunned == true)
             {
-                if (currentrolls < 3)
+                if (currentrolls < 2)
                 {
                     enemystunned = true;
                 }
@@ -308,7 +361,7 @@ namespace Fight_Project
 
             if (stunned == true)
             {
-                if (currentrolls2 < 3)
+                if (currentrolls2 < 2)
                 {
                     stunned = true;
                 }
@@ -320,7 +373,8 @@ namespace Fight_Project
                 currentrolls2++;
             }
         }
-       
+
+        //Returns the health after the burn action has been done.
         public double Burn()
         {
             if (enemyburned == true)
@@ -354,7 +408,7 @@ namespace Fight_Project
             }
         }
 
-
+        //Returns the health after the health action has been done.
         public double Heal(bool heal)
         {
             if (heal)
@@ -395,6 +449,7 @@ namespace Fight_Project
             else { return 0; }
         }
 
+        // Updates all the move statuses (e.g. if enemy is stunned) and checks if the game has ended.
         public void Turn()
         {
 
@@ -447,25 +502,54 @@ namespace Fight_Project
             }     
         }
 
+        // Updates values in the main storage file and sets the current form to mainform.
+        private void ExitButton_Click_1(object sender, EventArgs e)
+        {
+            Updater();
+
+            Manager.mainForm.Show();
+            Manager.mainForm.Enabled = true;
+            this.Dispose();
+        }
+
+        //Updates all the values in the files, usually done before exiting the game
+        public void Updater()
+        {
+            Manager.time = time;
+            Manager.health = health;
+            Manager.enemyhealth = enemyhealth;
+
+
+            StreamWriter scorecount = new StreamWriter("H:/Fight Project/Fight Project/bin/debug/Game scores.txt", false);
+            scorecount.WriteLine(Manager.wins.ToString());
+            scorecount.WriteLine(Manager.loss.ToString());
+            scorecount.WriteLine(Manager.time.ToString());
+            scorecount.WriteLine(Manager.health.ToString());
+            scorecount.WriteLine(Manager.enemyhealth.ToString());
+            scorecount.WriteLine(Manager.EnemyName);
+            scorecount.Close();
+        }
+        // Checks if the Player won the game or if it was the computer.
         public void GameEnd(bool won)
         {
-            Form3 End = new Form3();
-            End.Show();
-            this.Enabled = false;
-
             if (won)
             {
-                manager.wins++;
+                Manager.wins++;
             }
             else
 
             {
-                manager.loss++;
+                Manager.loss++;
             }
+
+            Form3 End = new Form3();
+            End.Show();
+            this.Enabled = false;
+            this.Dispose();
         }
     }
 
-
+    // Class to manage and create attacks, it contains damage and the 'status' of the attack.
     public class Attack
     {
         public double damage;
@@ -476,7 +560,7 @@ namespace Fight_Project
             status = s;
         }
     }
-
+    // Class to manage and create enemies, giving each their own health and name.
     public class Enemy
     {
         public double health;
@@ -489,10 +573,28 @@ namespace Fight_Project
         }
     }
 
-    public class manager
+    // Class to manage scores, time and health of characters to pass them between forms and to help store it easily in forms.
+    public class Manager
     {
         public static int wins = 0;
         public static int loss = 0;
+        public static int time = 0;
+        public static double health = 0;
+        public static double enemyhealth = 0;
+        public static Form1 mainForm;
+        public static Form2 BattleForm;
+        public static Form3 EndForm;
+        public static bool Loaded = false;
+        public static string EnemyName = "";
+
+        public static void ResetForNew()
+        {
+            wins = 0;
+            loss = 0;
+            health = 0;
+            enemyhealth = 0;
+            EnemyName = "";
+        }
     }
 }
 
